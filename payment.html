@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Razorpay Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <form action="charge.php" method="POST">
+        <label for="amount">Amount (INR):</label>
+        <input type="number" name="amount" id="amount" value="100">
+        <button type="submit" id="paymentButton">Pay Now</button>
+    </form>
+
+    <script>
+        var amountField = document.getElementById("amount");
+        var paymentButton = document.getElementById("paymentButton");
+
+        paymentButton.onclick = function (event) {
+            event.preventDefault();
+            var amount = amountField.value * 100; // Amount in paise
+
+            var options = {
+                key: 'rzp_test_bzFCfSLZQfUiCK', // Replace with your Razorpay API Key
+                amount: amount,
+                currency: 'INR',
+                name: 'Your Company Name',
+                description: 'Payment for your product or service',
+                image: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?auto=format&fit=crop&q=80&w=2069&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', // Replace with your logo URL
+                order_id: '', // Leave empty for now
+                handler: function (response) {
+                    // This function is called after a successful payment
+                    window.location.href = 'success.html'; // Redirect to success page
+                },
+            };
+            
+            var rzp = new Razorpay(options);
+            rzp.open();
+        };
+    </script>
+</body>
+</html>
